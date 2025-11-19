@@ -18,93 +18,80 @@
                 <li><a href="contacto.html">Contacto</a></li>
                 <li><a href="pago.html">Pagar</a></li>
                 <li><a href="carrito.html">🛒 Ver Carrito (<span id="contador-carrito">0</span>)</a></li>
+                <li><a href="admin.html">🕵🏻‍♂️</a></li>
             </ul>
         </nav>
     </header>
 
     <!-- Banner -->
     <section id="inicio" class="banner">
-        <h2>La mejor tienda en electronica, tecnologia y accesorios</h2>
+        <h2>La mejor tienda en electronica, tecnologia y mas</h2>
     </section>
 
     <!-- Sección de productos -->
-    <section id="productos" class="productos">
-        <h2>Ultimos Productos Agregados</h2>
-        <div class="productos-container">
-            <div class="producto">
-                <img src="billetera.jpg" alt="Billetera con doble cremallera">
-                <h3>Billetera con doble cremallera</h3>
-                <p>$25.00</p>
-                <button class="agregar-carrito" data-nombre="Billetera con doble cremallera" data-precio="25">Agregar al carrito</button>
-            </div>
-            <div class="producto">
-                <img src="afilador.jpg" alt="Afilador de cuchillos v">
-                <h3>Afilador de cuchillos v</h3>
-                <p>$30.00</p>
-                <button class="agregar-carrito" data-nombre="Afilador de cuchillos v" data-precio="30">Agregar al carrito</button>
-            </div>
-            <div class="producto">
-                <img src="https://via.placeholder.com/150" alt="Producto 3">
-                <h3>Producto 3</h3>
-                <p>$20.00</p>
-                <button class="agregar-carrito" data-nombre="Producto 3" data-precio="30">Agregar al carrito</button>
-            </div>
-            <div class="producto">
-                <img src="https://via.placeholder.com/150" alt="Producto 3">
-                <h3>Producto 3</h3>
-                <p>$20.00</p>
-                <button class="agregar-carrito" data-nombre="Producto 3" data-precio="30">Agregar al carrito</button>
-            </div>
-            <div class="producto">
-                <img src="https://via.placeholder.com/150" alt="Producto 3">
-                <h3>Producto 3</h3>
-                <p>$20.00</p>
-                <button class="agregar-carrito" data-nombre="Producto 3" data-precio="30">Agregar al carrito</button>
-            </div>
-            <div class="producto">
-                <img src="https://via.placeholder.com/150" alt="Producto 3">
-                <h3>Producto 3</h3>
-                <p>$20.00</p>
-                <button class="agregar-carrito" data-nombre="Producto 3" data-precio="30">Agregar al carrito</button>
-            </div>
-            <div class="producto">
-                <img src="https://via.placeholder.com/150" alt="Producto 3">
-                <h3>Producto 3</h3>
-                <p>$20.00</p>
-                <button class="agregar-carrito" data-nombre="Producto 3" data-precio="30">Agregar al carrito</button>
-            </div>
-            <div class="producto">
-                <img src="https://via.placeholder.com/150" alt="Producto 3">
-                <h3>Producto 3</h3>
-                <p>$20.00</p>
-                <button class="agregar-carrito" data-nombre="Producto 3" data-precio="30">Agregar al carrito</button>
-            </div>
-            <div class="producto">
-                <img src="https://via.placeholder.com/150" alt="Producto 3">
-                <h3>Producto 3</h3>
-                <p>$20.00</p>
-                <button class="agregar-carrito" data-nombre="Producto 3" data-precio="30">Agregar al carrito</button>
-            </div>
-            <div class="producto">
-                <img src="https://via.placeholder.com/150" alt="Producto 3">
-                <h3>Producto 3</h3>
-                <p>$20.00</p>
-                <button class="agregar-carrito" data-nombre="Producto 3" data-precio="30">Agregar al carrito</button>
-            </div>
-            <div class="producto">
-                <img src="https://via.placeholder.com/150" alt="Producto 3">
-                <h3>Producto 3</h3>
-                <p>$20.00</p>
-                <button class="agregar-carrito" data-nombre="Producto 3" data-precio="30">Agregar al carrito</button>
-            </div>
-            <div class="producto">
-                <img src="https://via.placeholder.com/150" alt="Producto 3">
-                <h3>Producto 3</h3>
-                <p>$20.00</p>
-                <button class="agregar-carrito" data-nombre="Producto 3" data-precio="30">Agregar al carrito</button>
-            </div>
-        </div>
-    </section>
+
+   <section id="productos" class="productos">
+    <h2>Últimos Productos Agregados</h2>
+    <div class="productos-container" id="productos-container"></div>
+</section>
+<script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js";
+
+    // ⬅️ Cambia esto por tus claves reales
+    const supabaseUrl = "https://lnceafmmakkkiebkmfne.supabase.co";
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxuY2VhZm1tYWtra2llYmttZm5lIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjM1NTcyMTcsImV4cCI6MjA3OTEzMzIxN30.fH0lC-gukHznlC2zpg3qkZpzNy6U3h4HV4HdV4XuvkM";
+    const supabase = createClient(supabaseUrl, supabaseKey);
+
+    const contenedor = document.getElementById("productos-container");
+
+    async function cargarProductos() {
+        const { data: productos, error } = await supabase
+            .from("productos")
+            .select("*")
+            .order("id", { ascending: false }); // Los últimos primero
+
+        if (error) {
+            console.error("Error cargando productos:", error);
+            contenedor.innerHTML = "<p>No se pudieron cargar los productos.</p>";
+            return;
+        }
+
+        contenedor.innerHTML = ""; // Limpiar
+
+        productos.forEach(prod => {
+            const div = document.createElement("div");
+            div.classList.add("producto");
+
+            div.innerHTML = `
+                <img src="${prod.imagen || 'https://via.placeholder.com/150'}">
+                <h3>${prod.nombre}</h3>
+                <p>$${prod.precio}</p>
+                <button class="agregar-carrito"
+                    data-nombre="${prod.nombre}"
+                    data-precio="${prod.precio}">
+                    Agregar al carrito
+                </button>
+            `;
+
+            contenedor.appendChild(div);
+        });
+
+        activarBotones();
+    }
+
+    function activarBotones() {
+        const botones = document.querySelectorAll(".agregar-carrito");
+
+        botones.forEach(btn => {
+            btn.addEventListener("click", () => {
+                alert(`Añadido: ${btn.dataset.nombre}`);
+            });
+        });
+    }
+
+    cargarProductos();
+</script>
+
     <center><button>
         
         <p>Total a pagar: <span id="total-carrito">$0.00</span></p>

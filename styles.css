@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #fce4ec; /* Rosado claro */
+    background-color: #eb7099; /* Rosado claro */
     color: black;
 }
 
@@ -116,18 +116,18 @@ form {
 input {
     margin: 10px;
     padding: 8px;
-    width: 80%;
+    width: auto;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 10px;
 }
 
 button {
-    background-color: #ff4081;
+    background-color: #720127;
     color: white;
     padding: 10px;
     border: none;
-    width: 85%;
-    border-radius: 5px;
+    width: auto;
+    border-radius: 10px;
     cursor: pointer;
 }
 
@@ -174,4 +174,5 @@ button:hover {
 
 a {
     color: white; 
+    text-decoration: 0;
 }
